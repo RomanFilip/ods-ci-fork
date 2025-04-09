@@ -16,10 +16,12 @@ Verify Auth Crd
     ...         Operator
     ...         RHOAIENG-18846
     ...         RHOAIENG-23478
-    IF """${ODH_DASHBOARD_PROJECT_NAME}""" == ""Open Data Hub""
+    Log    product name: ${PRODUCT}   
+    Log    project name: ${ODH_DASHBOARD_PROJECT_NAME}
+    IF """${ODH_DASHBOARD_PROJECT_NAME}""" == "Open Data Hub"
         ${rc}       ${odhdashboardconfig_groups}=    Run And Return Rc And Output
     ...    oc get odhdashboardconfig odh-dashboard-config -n opendatahub -o jsonpath='{.spec.groupsConfig}'
-    ELSE  
+    ELSE
         ${rc}       ${odhdashboardconfig_groups}=    Run And Return Rc And Output
     ...    oc get odhdashboardconfig odh-dashboard-config -n redhat-ods-applications -o jsonpath='{.spec.groupsConfig}'
     Should Be Equal As Integers     ${rc}       0
