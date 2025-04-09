@@ -15,7 +15,12 @@ Verify Auth Crd
     [Tags]      Smoke
     ...         Operator
     ...         RHOAIENG-18846
-    ${rc}       ${odhdashboardconfig_groups}=    Run And Return Rc And Output
+    ...         RHOAIENG-23478
+    IF """${PRODUCT}""" == ""ODH""
+        ${rc}       ${odhdashboardconfig_groups}=    Run And Return Rc And Output
+    ...    oc get odhdashboardconfig odh-dashboard-config -n opendatahub -o jsonpath='{.spec.groupsConfig}'
+    ELSE  
+        ${rc}       ${odhdashboardconfig_groups}=    Run And Return Rc And Output
     ...    oc get odhdashboardconfig odh-dashboard-config -n redhat-ods-applications -o jsonpath='{.spec.groupsConfig}'
     Should Be Equal As Integers     ${rc}       0
     ${rc}       ${auth_cr_groups}=      Run And Return Rc And Output
