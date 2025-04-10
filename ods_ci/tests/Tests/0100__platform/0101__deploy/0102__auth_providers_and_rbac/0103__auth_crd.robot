@@ -36,6 +36,7 @@ Verify Auth Crd
     Get User Groups From Auth Cr And Check Rolebinding Exists       adminGroups     rolebinding     admingroup-rolebinding
     Get User Groups From Auth Cr And Check Rolebinding Exists       adminGroups     clusterrolebinding     admingroupcluster-rolebinding
     Get User Groups From Auth Cr And Check Rolebinding Exists       allowedGroups   rolebinding     allowedgroup-rolebinding
+    Get User Groups From Auth Cr And Check Rolebinding Exists       ${namespace}
 
 
 *** Keywords ***
@@ -49,7 +50,7 @@ Auth Crd Suite Teardown
 
 Get User Groups From Auth Cr And Check Rolebinding Exists
     [Documentation]    Get User Groups From Auth CR And Check Rolebinding Exists
-    [Arguments]    ${group}     ${role_type}    ${rolebinding_name}
+    [Arguments]    ${group}     ${role_type}    ${rolebinding_name} ${namespace}
     ${rc}    ${out}=    Run And Return Rc And Output        oc get auth auth -o jsonpath='{.spec.${group}}'
     Should Be Equal As Integers    ${rc}    0
     ${groups_str}=    Remove String    ${out}    [    ]
