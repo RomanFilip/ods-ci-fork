@@ -16,12 +16,13 @@ Verify Auth Crd
     ...         Operator
     ...         RHOAIENG-18846
     ...         RHOAIENG-23478
-    IF ${PRODUCT} == 'ODH'
+    IF  """${PRODUCT}""" == """ODH"""
         ${rc}       ${odhdashboardconfig_groups}=    Run And Return Rc And Output
     ...    oc get odhdashboardconfig odh-dashboard-config -n opendatahub -o jsonpath='{.spec.groupsConfig}'
     ELSE
         ${rc}       ${odhdashboardconfig_groups}=    Run And Return Rc And Output
     ...    oc get odhdashboardconfig odh-dashboard-config -n redhat-ods-applications -o jsonpath='{.spec.groupsConfig}'
+    END
     Should Be Equal As Integers     ${rc}       0
     ${rc}       ${auth_cr_groups}=      Run And Return Rc And Output
     ...                     oc get auth auth -o jsonpath='{.spec}'
